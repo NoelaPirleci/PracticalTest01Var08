@@ -19,10 +19,29 @@ public class PracticalTest01Var08MainActivity extends AppCompatActivity {
     EditText riddle_edit_text;
     EditText answer_edit_text;
 
+    boolean hasResult = false;
+    String result_from_sec_activity;
+    // Cheie pentru salvarea în Bundle
+    private static final String SAVED_RESULT_KEY = "saved_result";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_practical_test01_var08_main);
+
+        // ===== Secțiunea de restaurare =====
+        if (savedInstanceState != null) {
+            // Verificăm dacă cheia noastră există în Bundle
+            if (savedInstanceState.containsKey(SAVED_RESULT_KEY)) {
+                // Restaurăm valoarea
+                result_from_sec_activity = savedInstanceState.getString(SAVED_RESULT_KEY);
+                hasResult = true;
+
+                // Afișăm un Toast pentru a confirma că s-a restaurat
+                Toast.makeText(this, "Rezultat restaurat: " + result_from_sec_activity, Toast.LENGTH_LONG).show();
+            }
+        }
 
         play_button = (Button) findViewById(R.id.play_button);
         riddle_edit_text = (EditText) findViewById(R.id.riddle_edit_text);
@@ -63,16 +82,28 @@ public class PracticalTest01Var08MainActivity extends AppCompatActivity {
 
                     // 4. Extrage rezultatul folosind aceeași cheie
                     String ans_result = intent.getStringExtra(Constants.KEY_RESULT_RIDDLE);
-
+                    result_from_sec_activity = ans_result;
+                    hasResult = true; // Marcăm că avem un rezultat valid
                     // 5. Folosește rezultatul!
                     Toast.makeText(this, "Rezultatul primit este: " + ans_result, Toast.LENGTH_LONG).show();
 
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                // Utilizatorul a apăsat "Back" din a doua activitate
                 Toast.makeText(this, "Operațiune anulată", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Salvăm rezultatul doar dacă avem unul
+        if (hasResult) {
+            outState.putString(SAVED_RESULT_KEY, result_from_sec_activity);
+        }
+    }
+
+
 
 }
