@@ -1,6 +1,10 @@
 package ro.pub.cs.systems.eim.practicaltest01var08;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -84,7 +88,7 @@ public class PracticalTest01Var08MainActivity extends AppCompatActivity {
                     String ans_result = intent.getStringExtra(Constants.KEY_RESULT_RIDDLE);
                     result_from_sec_activity = ans_result;
                     hasResult = true; // Marcăm că avem un rezultat valid
-                    // 5. Folosește rezultatul!
+
                     Toast.makeText(this, "Rezultatul primit este: " + ans_result, Toast.LENGTH_LONG).show();
 
                 }
@@ -103,7 +107,5 @@ public class PracticalTest01Var08MainActivity extends AppCompatActivity {
             outState.putString(SAVED_RESULT_KEY, result_from_sec_activity);
         }
     }
-
-
 
 }
